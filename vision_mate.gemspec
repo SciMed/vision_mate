@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = VisionMate::VERSION
   spec.authors       = ["Joe Jackson"]
   spec.email         = ["joe.jackson@scimedsolutions.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{ Ruby client for the Thermo Scientific VisionMate 2D Scanner }
+  spec.description   = %q{ Ruby client for the Thermo Scientific VisionMate 2D Scanner }
   spec.homepage      = ""
   spec.license       = "MIT"
 
