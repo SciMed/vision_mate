@@ -11,6 +11,7 @@ describe VisionMate::Tube do
   describe "#position" do
     it "returns it's own position" do
       tube = VisionMate::Tube.new "foo-barcode", "A1"
+      expect(tube.position).to eq "A1"
     end
   end
 end
