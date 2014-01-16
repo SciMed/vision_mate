@@ -9,7 +9,7 @@ module VisionMate
   # used to configure the orientation and dimensions of scanned racks.
   #
   # Example:
-  #     VisionMate.config do |config|
+  #     VisionMate.configure do |config|
   #       config.host = "192.168.1.1"
   #       config.port = "8080"
   #     end
@@ -17,7 +17,7 @@ module VisionMate
   #     VisionMate::Configuration.host # => "192.168.1.1"
   #     VisionMate::Configuration.port # => "8080"
   #
-  def self.config(&block)
+  def self.configure(&block)
     block.call(VisionMate::Configuration)
   end
 

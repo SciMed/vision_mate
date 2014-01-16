@@ -8,7 +8,7 @@ end
 describe "Integrating With a Scanner" do
   before(:each) { Net::Telnet.stub new: double("telnet") }
   it "scans a rack of tubes" do
-    VisionMate.config do |config|
+    VisionMate.configure do |config|
       config.host = "http://192.168.3.132"
       config.port = "8000"
     end

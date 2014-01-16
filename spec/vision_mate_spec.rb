@@ -1,16 +1,16 @@
 require_relative "../lib/vision_mate"
 
 describe VisionMate do
-  describe ".config" do
+  describe ".configure" do
     it "can set the connection host" do
-      VisionMate.config do |config|
+      VisionMate.configure do |config|
         config.host = "http://192.168.3.132"
       end
       VisionMate::Configuration.host.should == "http://192.168.3.132"
     end
 
     it "can set the connection port" do
-      VisionMate.config do |config|
+      VisionMate.configure do |config|
         config.port = "8000"
       end
       VisionMate::Configuration.port.should == "8000"
