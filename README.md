@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SciMed/vision_mate.png?branch=master)](https://travis-ci.org/SciMed/vision_mate)
+
 # VisionMate
 
 VisionMate provides a Ruby interface to the Thermo Scientific VisionMate 2D
