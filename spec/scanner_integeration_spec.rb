@@ -1,7 +1,7 @@
 require_relative "../lib/vision_mate"
 require "net/telnet"
 
-class MockTelnet;
+class MockTelnet
   def initialize(*); end
 end
 
@@ -23,6 +23,8 @@ describe "Integrating With a Scanner" do
   end
 
   def one_tube_string
-    "OKNo Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,0093404544,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,"
+    gem_path = File.expand_path('../..', __FILE__)
+    asset_path = gem_path + "/spec/assets/one_tube_results.txt"
+    File.read(asset_path)
   end
 end

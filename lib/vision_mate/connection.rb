@@ -1,6 +1,10 @@
 require "net/telnet"
 
 module VisionMate
+  # Connection is an abstract interface used to wrap the Telnet connection to
+  # the scanner. It provides a high level API for the scanner and standardizes
+  # the output returned.
+  #
   class Connection
     attr_accessor :telnet_connection, :host, :port
     def initialize(host, port, telnet_class = Net::Telnet)
@@ -18,17 +22,17 @@ module VisionMate
 
     private
 
-      def build_rack(response)
-        response[/\AOK(.+)/, 1].split(",").compact.map { |tube|
-          build_tube(tube)
-        }
+    def build_rack(response)
+      response[/\AOK(.+)/, 1].split(",").compact.map do |tube|
+        build_tube(tube)
       end
+    end
 
-      def build_tube(barcode)
-        return NoTube.new if barcode == "No Tube"
+    def build_tube(barcode)
+      return NoTube.new if barcode == "No Tube"
 
-        Tube.new(barcode)
-      end
+      Tube.new(barcode)
+    end
   end
 
   class Tube

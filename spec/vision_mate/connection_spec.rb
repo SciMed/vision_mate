@@ -1,7 +1,7 @@
 require_relative "../../lib/vision_mate/connection"
 require 'uri'
 
-class MockTelnet;
+class MockTelnet
   def initialize(*); end
 end
 
@@ -10,12 +10,12 @@ describe VisionMate::Connection do
 
   describe "#scan" do
     subject { VisionMate::Connection.new uri.host, uri.port, MockTelnet }
-    let (:rack_size) { 96 }
+    let(:rack_size) { 96 }
 
     context "no tubes in the rack" do
-      it "returns and empty rack" do
+      it "returns an empty rack" do
         subject.telnet_connection.should_receive(:cmd)
-          .with("String"=> "D", "Match" => /OK/)
+          .with("String" => "D", "Match" => /OK/)
           .and_return(empty_tube_string)
         VisionMate::NoTube = double new: double("no_tube", empty?: true)
         VisionMate::Tube = double new: double("tube", empty?: false)
@@ -27,7 +27,7 @@ describe VisionMate::Connection do
     context "one tube in rack" do
       it "returns a rack with one tube" do
         subject.telnet_connection.should_receive(:cmd)
-          .with("String"=> "D", "Match" => /OK/)
+          .with("String" => "D", "Match" => /OK/)
           .and_return(one_tube_string)
         VisionMate::NoTube.stub new: double("no_tube", empty?: true)
         VisionMate::Tube.stub new: double("tube", empty?: false)
@@ -38,10 +38,14 @@ describe VisionMate::Connection do
   end
 
   def empty_tube_string
-    "OKNo Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,"
+    gem_path = File.expand_path('../..', __FILE__)
+    asset_path = gem_path + "/assets/empty_tube_results.txt"
+    File.read(asset_path)
   end
 
   def one_tube_string
-    "OKNo Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,0093404544,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,No Tube,"
+    gem_path = File.expand_path('../..', __FILE__)
+    asset_path = gem_path + "/assets/one_tube_results.txt"
+    File.read(asset_path)
   end
 end
