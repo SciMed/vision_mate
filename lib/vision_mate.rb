@@ -1,5 +1,6 @@
 require "vision_mate/configuration"
 require "vision_mate/connection"
+require "vision_mate/tube"
 require "vision_mate/version"
 require "uri"
 
