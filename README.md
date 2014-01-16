@@ -1,29 +1,47 @@
 # VisionMate
 
-TODO: Write a gem description
+VisionMate provides a Ruby interface to the Thermo Scientific VisionMate 2D
+barcode scanner used to bulk scan multiple test tubes set in a rack. The library
+provides a wrapper around the Telnet interface used by the VisionMate scanner.
+
+![Workflow Example](assets/images/vision_mate_workflow.png)
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add it to the project's Gemfile with:
 
-    gem 'vision_mate'
+gem 'vision_mate'
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install vision_mate
+Run the `bundle` command to install it.
 
 ## Usage
 
-TODO: Write usage instructions here
+Configure the connection in an initializer file. e.g.
+`config/initializers/vision_mate.rb`
+
+```Ruby
+  VisionMate.configure do |config|
+    config.host = '192.168.1.1'
+    config.port = '8000'
+  end
+```
+
+Initialize a connection and perform a scan.
+
+```Ruby
+  scanner = VisionMate.connect
+  scanner.scan # => (results)
+```
 
 ## Contributing
 
-1. Fork it ( http://github.com/SciMed/vision_mate/fork )
+1. Fork this repository ( http://github.com/SciMed/vision_mate/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+5. Create a new Pull Request
+
+## Copyright
+
+Copyright (c) 2014 SciMed Solutions Inc. Licensed under the MIT license. See
+[LICENSE](LICENSE.txt) for details.
