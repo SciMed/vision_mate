@@ -10,7 +10,7 @@ provides a wrapper around the Telnet interface used by the VisionMate scanner.
 
 Add it to the project's Gemfile with:
 
-gem 'vision_mate'
+    gem 'vision_mate'
 
 Run the `bundle` command to install it.
 
