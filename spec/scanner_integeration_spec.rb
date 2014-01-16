@@ -16,6 +16,11 @@ describe "Integrating With a Scanner" do
     vm_client.telnet_connection.stub(cmd: one_tube_string)
     result = vm_client.scan.reject(&:empty?)
     expect(result.first.barcode).to eq first_tube_barcode
+    expect(result.first.position).to eq first_tube_position
+  end
+
+  def first_tube_position
+    "H1"
   end
 
   def first_tube_barcode

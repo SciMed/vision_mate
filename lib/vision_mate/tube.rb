@@ -4,10 +4,11 @@ module VisionMate
   # a `Rack` object once a scan is performed.
   #
   class Tube
-    attr_accessor :barcode
+    attr_accessor :barcode, :position
 
-    def initialize(barcode)
+    def initialize(barcode, position)
       self.barcode = barcode
+      self.position = position
     end
 
     def empty?

@@ -1,4 +1,6 @@
 require_relative "../../lib/vision_mate/connection"
+require_relative "../../lib/vision_mate/tube"
+require_relative "../../lib/vision_mate/no_tube"
 require 'uri'
 
 class MockTelnet
@@ -17,8 +19,8 @@ describe VisionMate::Connection do
         subject.telnet_connection.should_receive(:cmd)
           .with("String" => "D", "Match" => /OK/)
           .and_return(empty_tube_string)
-        VisionMate::NoTube = double new: double("no_tube", empty?: true)
-        VisionMate::Tube = double new: double("tube", empty?: false)
+        VisionMate::NoTube.stub new: double("no_tube", empty?: true)
+        VisionMate::Tube.stub new: double("tube", empty?: false)
         rack = subject.scan
         expect(rack.reject(&:empty?)).to be_empty
       end
