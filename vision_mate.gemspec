@@ -6,11 +6,11 @@ require 'vision_mate/version'
 Gem::Specification.new do |spec|
   spec.name          = "vision_mate"
   spec.version       = VisionMate::VERSION
-  spec.authors       = ["Joe Jackson"]
-  spec.email         = ["joe.jackson@scimedsolutions.com"]
-  spec.summary       = %q{ Ruby client for the Thermo Scientific VisionMate 2D Scanner }
-  spec.description   = %q{ Ruby client for the Thermo Scientific VisionMate 2D Scanner }
-  spec.homepage      = ""
+  spec.authors       = ["Joe Jackson", "Joseph Jaber"]
+  spec.email         = ["joe.jackson@scimedsolutions.com", "mail@josephjaber.com"]
+  spec.summary       = %q{ Ruby client for the Thermo Scientific VisionMate 2D Scanner. }
+  spec.description   = %q{ Ruby client for the Thermo Scientific VisionMate 2D Scanner. }
+  spec.homepage      = "http://github.com/SciMed/vision_mate"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -21,4 +21,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 2.13"
+  spec.add_development_dependency "yard"
 end
