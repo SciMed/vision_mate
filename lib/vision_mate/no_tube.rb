@@ -1,14 +1,13 @@
 module VisionMate
-  class Tube
+  class NoTube
     attr_accessor :barcode, :position
 
-    def initialize(barcode, position)
-      self.barcode = barcode
+    def initialize(_, position)
       self.position = position
     end
 
     def empty?
-      false
+      true
     end
   end
 end

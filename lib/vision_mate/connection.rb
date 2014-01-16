@@ -3,6 +3,7 @@ require "net/telnet"
 module VisionMate
   class Connection
     attr_accessor :telnet_connection, :host, :port
+
     def initialize(host, port, telnet_class = Net::Telnet)
       self.host = host
       self.port = port
@@ -25,29 +26,10 @@ module VisionMate
       end
 
       def build_tube(barcode)
-        return NoTube.new if barcode == "No Tube"
+        return NoTube.new(barcode, "TODO Position") if barcode == "No Tube"
 
-        Tube.new(barcode)
+        # TODO: Set Posistions
+        Tube.new(barcode, "H1")
       end
-  end
-
-  class Tube
-    attr_accessor :barcode
-
-    def initialize(barcode)
-      self.barcode = barcode
-    end
-
-    def empty?
-      false
-    end
-  end
-
-  class NoTube
-    attr_accessor :barcode
-
-    def empty?
-      true
-    end
   end
 end
