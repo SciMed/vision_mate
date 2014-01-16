@@ -2,10 +2,12 @@ require "net/telnet"
 
 module VisionMate
   class Connection
-    attr_accessor :telnet_connection
-    def initialize(uri, telnet_class = Net::Telnet)
+    attr_accessor :telnet_connection, :host, :port
+    def initialize(host, port, telnet_class = Net::Telnet)
+      self.host = host
+      self.port = port
       self.telnet_connection = telnet_class.new(
-        "Host" => uri.host, "Port" => uri.port
+        "Host" => host, "Port" => port
       )
     end
 

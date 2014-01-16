@@ -1,14 +1,18 @@
 require_relative "../lib/vision_mate"
-require "uri"
+require "net/telnet"
 
 class MockTelnet;
   def initialize(*); end
 end
 
 describe "Integrating With a Scanner" do
+  before(:each) { Net::Telnet.stub new: double("telnet") }
   it "scans a rack of tubes" do
-    host = double("host", host: "192.168.3.132", port: "8000")
-    vm_client = VisionMate.connect host
+    VisionMate.config do |config|
+      config.host = "http://192.168.3.132"
+      config.port = "8000"
+    end
+    vm_client = VisionMate.connect
     vm_client.telnet_connection.stub(cmd: one_tube_string)
     result = vm_client.scan.reject(&:empty?)
     expect(result.first.barcode).to eq first_tube_barcode

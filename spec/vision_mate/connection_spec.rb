@@ -10,12 +10,8 @@ end
 describe VisionMate::Connection do
   let(:uri) { double("uri", host: "192.168.3.132", port: "8000") }
 
-  it "can create a connection with a host" do
-    VisionMate::Connection.new(uri)
-  end
-
   describe "#scan" do
-    subject { VisionMate::Connection.new uri, MockTelnet }
+    subject { VisionMate::Connection.new uri.host, uri.port, MockTelnet }
     let (:rack_size) { 96 }
 
     context "no tubes in the rack" do
