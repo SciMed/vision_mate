@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/SciMed/vision_mate.png?branch=master)](https://travis-ci.org/SciMed/vision_mate)
+[![Code Climate](https://codeclimate.com/github/SciMed/vision_mate.png)](https://codeclimate.com/github/SciMed/vision_mate)
 
 # VisionMate
 
