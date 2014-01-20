@@ -6,6 +6,12 @@ module VisionMate
   class Tube
     attr_accessor :barcode, :position
 
+    def self.create(barcode, position)
+      return NoTube.new(barcode, position) if barcode == "No Tube"
+
+      Tube.new(barcode, position)
+    end
+
     def initialize(barcode, position)
       self.barcode = barcode
       self.position = position

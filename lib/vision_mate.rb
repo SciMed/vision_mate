@@ -1,6 +1,8 @@
 require "vision_mate/configuration"
 require "vision_mate/connection"
 require "vision_mate/no_tube"
+require "vision_mate/rack"
+require "vision_mate/telnet"
 require "vision_mate/tube"
 require "vision_mate/version"
 require "uri"
