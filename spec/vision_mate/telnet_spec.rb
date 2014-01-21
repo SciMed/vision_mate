@@ -18,21 +18,23 @@ describe VisionMate::Telnet do
 
     it "thows an exception if it cannot connect" do
       MockTelnet.stub(:new).and_raise(Timeout::Error)
-      expect {
+      expect do
         VisionMate::Telnet.connect("bad_host.com", "88", MockTelnet)
-      }.to raise_error(VisionMate::Telnet::CouldNotConnect)
+      end.to raise_error(VisionMate::Telnet::CouldNotConnect)
     end
 
     it "throws an exception if the port or host is invalid" do
       MockTelnet.stub(:new).and_raise(SocketError)
-      expect {
+      expect do
         VisionMate::Telnet.connect("bad_host", "899999", MockTelnet)
-      }.to raise_error(VisionMate::Telnet::BadHostNameOrPort)
+      end.to raise_error(VisionMate::Telnet::BadHostNameOrPort)
     end
 
     it "sets the scanner to manual" do
       MockTelnet.stub(new: telnet_connection)
-      telnet_connection.should_receive(:cmd).with("String" => "M0", "Match" => /OK/)
+      telnet_connection.should_receive(:cmd).with(
+        "String" => "M0", "Match" => /OK/
+      )
       VisionMate::Telnet.connect("foo.com", "80", MockTelnet)
     end
   end
@@ -40,22 +42,29 @@ describe VisionMate::Telnet do
   describe "#scan" do
     before do
       telnet_connection.stub(:cmd).with("String" => "L", "Match" => /OK/)
-        .and_return("OK45")
+        .and_return("OK37")
     end
 
     it "scans and returns a string of barcodes and no bacodes" do
-      telnet_connection.should_receive(:cmd).with("String" => "M0", "Match" => /OK/)
-      telnet_connection.should_receive(:cmd).with("String" => "S", "Match" => /OK/)
-      telnet_connection.should_receive(:cmd).with("String" => "L", "Match" => /OK/)
-      telnet_connection.should_receive(:cmd).with("String" => "D", "Match" => /OK/)
-        .and_return one_tube_results
+      telnet_connection.should_receive(:cmd).with(
+        "String" => "M0", "Match" => /OK/
+      )
+      telnet_connection.should_receive(:cmd).with(
+        "String" => "S", "Match" => /OK/
+      )
+      telnet_connection.should_receive(:cmd).with(
+        "String" => "L", "Match" => /OK/
+      )
+      telnet_connection.should_receive(:cmd).with(
+        "String" => "D", "Match" => /OK/
+      ).and_return one_tube_results
       return_value = subject.scan
-      expect(return_value).to match /0093404544/
-      expect(return_value).to match /No Tube/
+      expect(return_value).to match(/0093404544/)
+      expect(return_value).to match(/No Tube/)
     end
 
     it "raises an error if there are no reads" do
-      telnet_connection.stub cmd: "OK45"
+      telnet_connection.stub cmd: "OK37"
       subject.stub(:retrieve_data).and_return(no_read_results)
       expect { subject.scan }.to raise_error(VisionMate::Telnet::TubeReadError)
     end

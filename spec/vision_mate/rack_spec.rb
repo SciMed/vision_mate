@@ -29,9 +29,9 @@ describe VisionMate::Rack do
     end
 
     it "raises an error when a tube is not found at position" do
-      expect {
+      expect do
         subject.at_position out_of_range_position
-      }.to raise_error(VisionMate::Rack::PositionOutOfRange)
+      end.to raise_error(VisionMate::Rack::PositionOutOfRange)
     end
   end
 
@@ -43,7 +43,7 @@ describe VisionMate::Rack do
 
     it "is not empty if there are any tubes" do
       rack = VisionMate::Rack.new(one_tube_string)
-      expect(subject).not_to be_empty
+      expect(rack).not_to be_empty
     end
   end
 

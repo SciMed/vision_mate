@@ -5,3 +5,6 @@ StringLiterals:
 
 Documentation:
   Enabled: false
+
+SignalException:
+  EnforcedStyle: only_raise

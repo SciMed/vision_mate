@@ -10,8 +10,9 @@ describe "Integrating With a Scanner" do
   before(:each) do
     telnet.stub(:cmd).with(hash_including("String" => "M0"))
     telnet.stub(:cmd).with(hash_including("String" => "S"))
-    telnet.stub(:cmd).with(hash_including("String" => "D")).and_return one_tube_string
-    telnet.stub(:cmd).with(hash_including("String" => "L")).and_return("OK45")
+    telnet.stub(:cmd).with(hash_including("String" => "D"))
+      .and_return one_tube_string
+    telnet.stub(:cmd).with(hash_including("String" => "L")).and_return("OK37")
     Net::Telnet.stub new: telnet
   end
 
@@ -35,7 +36,9 @@ describe "Integrating With a Scanner" do
     end
 
     vm_client = VisionMate.connect
-    expect { vm_client.scan }.to raise_error(VisionMate::Telnet::TubeReadError)
+    expect { vm_client.scan }.to raise_error(
+      VisionMate::Telnet::TubeReadError
+    )
   end
 
   def first_tube_position
@@ -47,7 +50,7 @@ describe "Integrating With a Scanner" do
   end
 
   def bad_read_string
-    one_tube_string.sub /No Tube/, "No Read"
+    one_tube_string.sub(/No Tube/, "No Read")
   end
 
   def one_tube_string

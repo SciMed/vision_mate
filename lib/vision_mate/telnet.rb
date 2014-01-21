@@ -32,38 +32,46 @@ module VisionMate
 
     def initiate_scan
       telnet_connection.cmd("String" => "S", "Match" => /OK/)
-      sleep 0.1 until scanner_status["data_ready"]
+      wait_for_data
     end
 
     private
 
-      def scanner_status
-        status = strip_prefix(telnet_connection.cmd("String" => "L", "Match" => /OK/))
-        status_names = %w{initializing scanning finished_scan data_ready data_sent
-          rack96 empty error}
-        status_values = extract_statuses(status)
+    def wait_for_data
+      sleep 0.1 while scanner_status["finished_scan"]
+      sleep 0.1 until scanner_status["data_ready"]
+    end
 
-        Hash[status_names.zip(status_values)]
-      end
+    def scanner_status
+      result = telnet_connection.cmd("String" => "L", "Match" => /OK/)
+      status = strip_prefix(result)
+      status_names = %w{initializing scanning finished_scan data_ready
+                        data_sent rack96 empty error}
+      status_values = extract_statuses(status)
 
-      def extract_statuses(status)
-        to_binary_string(status.to_i).split('').map { |status| status == "1" }
-      end
+      Hash[status_names.zip(status_values)]
+    end
 
-      def to_binary_string(int)
-        int.to_s(2)
-      end
+    def extract_statuses(status_string)
+      statuses = to_binary_string(status_string.to_i).split('')
 
-      def retrieve_data
-        telnet_connection.cmd("String" => "D", "Match" => /OK/)
-      end
+      statuses.map { |status| status == "1" }
+    end
 
-      def set_scanner_to_manual
-        telnet_connection.cmd("String" => "M0", "Match" => /OK/)
-      end
+    def to_binary_string(int)
+      int.to_s(2)
+    end
 
-      def strip_prefix(string)
-        string[/^OK(.*)/, 1]
-      end
+    def retrieve_data
+      telnet_connection.cmd("String" => "D", "Match" => /OK/)
+    end
+
+    def set_scanner_to_manual
+      telnet_connection.cmd("String" => "M0", "Match" => /OK/)
+    end
+
+    def strip_prefix(string)
+      string[/^OK(.*)/, 1]
+    end
   end
 end
