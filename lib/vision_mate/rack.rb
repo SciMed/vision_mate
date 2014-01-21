@@ -35,8 +35,8 @@ module VisionMate
 
     def converted_position(position)
       row_letters = ("A".."Z").take(number_of_rows)
-      row_letter = row_letters[position % number_of_columns]
-      row_number = (position / number_of_columns) + 1
+      row_letter = row_letters[position % number_of_rows]
+      row_number = (position / number_of_rows) + 1
 
       "#{row_letter}#{row_number}"
     end

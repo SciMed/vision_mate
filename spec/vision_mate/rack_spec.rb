@@ -13,8 +13,13 @@ describe VisionMate::Rack do
   end
 
   it "assigns the correct positions to tubes" do
-    VisionMate::Tube.should_receive(:new).with(/\d+/, "H1")
-    VisionMate::Rack.new(one_tube_string)
+    rack = VisionMate::Rack.new(full_rack_string)
+    first_tube = rack.at_position("A1")
+    middle_tube = rack.at_position("D6")
+    last_tube = rack.at_position("H12")
+    expect(first_tube.barcode).to eq "0093404458"
+    expect(middle_tube.barcode).to eq "0093404519"
+    expect(last_tube.barcode).to eq "0093404468"
   end
 
   describe "#at_position" do
@@ -53,6 +58,10 @@ describe VisionMate::Rack do
 
   def one_tube_string
     read_tube_file "/assets/one_tube_results.txt"
+  end
+
+  def full_rack_string
+    read_tube_file "/assets/full_rack_results.txt"
   end
 
   def read_tube_file(path)
