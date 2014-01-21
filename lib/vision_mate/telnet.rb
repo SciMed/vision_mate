@@ -7,9 +7,12 @@ module VisionMate
     class BadHostNameOrPort < StandardError; end
     class TubeReadError < StandardError; end
 
+    # For ruby 1.9 compatibility
+    class Net::OpenTimeout < StandardError; end
+
     def self.connect(host, port, telnet_class = Net::Telnet)
       new(telnet_class.new("Host" => host, "Port" => port))
-    rescue Net::OpenTimeout
+    rescue Net::OpenTimeout, Timeout::Error
       raise CouldNotConnect, "Failed to connect to #{host}:#{port}"
     rescue SocketError
       raise BadHostNameOrPort, "Malformed host name or port"

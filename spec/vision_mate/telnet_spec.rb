@@ -17,7 +17,7 @@ describe VisionMate::Telnet do
     end
 
     it "thows an exception if it cannot connect" do
-      MockTelnet.stub(:new).and_raise(Net::OpenTimeout)
+      MockTelnet.stub(:new).and_raise(Timeout::Error)
       expect {
         VisionMate::Telnet.connect("bad_host.com", "88", MockTelnet)
       }.to raise_error(VisionMate::Telnet::CouldNotConnect)
