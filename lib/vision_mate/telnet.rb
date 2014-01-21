@@ -8,7 +8,7 @@ module VisionMate
     class TubeReadError < StandardError; end
 
     # For ruby 1.9 compatibility
-    class Net::OpenTimeout < StandardError; end
+    class Net::OpenTimeout; end
 
     def self.connect(host, port, telnet_class = Net::Telnet)
       new(telnet_class.new("Host" => host, "Port" => port))
