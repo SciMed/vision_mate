@@ -4,7 +4,8 @@ module VisionMate
   #
   module Configuration
     class << self
-      attr_accessor :host, :port
+      attr_accessor :host, :port, :timeout
     end
+    self.timeout ||= 2
   end
 end

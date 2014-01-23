@@ -14,6 +14,7 @@ describe "Integrating With a Scanner" do
       .and_return one_tube_string
     telnet.stub(:cmd).with(hash_including("String" => "L")).and_return("OK37")
     Net::Telnet.stub new: telnet
+    VisionMate::Telnet.instance_variable_set(:@telnet_connection, nil)
   end
 
   it "scans a rack of tubes" do

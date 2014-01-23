@@ -11,7 +11,10 @@ module VisionMate
     class Net::OpenTimeout; end
 
     def self.connect(host, port, telnet_class = Net::Telnet)
-      new(telnet_class.new("Host" => host, "Port" => port))
+      @telnet_connection ||= telnet_class.new(
+        "Host" => host, "Port" => port, "Timeout" => Configuration.timeout
+      )
+      new(@telnet_connection)
     rescue Net::OpenTimeout, Timeout::Error
       raise CouldNotConnect, "Failed to connect to #{host}:#{port}"
     rescue SocketError
@@ -31,11 +34,20 @@ module VisionMate
     end
 
     def initiate_scan
-      telnet_connection.cmd("String" => "S", "Match" => /OK/)
+      telnet_command("S")
       wait_for_data
     end
 
     private
+
+    def telnet_command(string)
+      telnet_connection.cmd("String" => string, "Match" => /OK/)
+    rescue Net::ReadTimeout, Timeout::Error
+      retries ||= 0
+      raise CouldNotConnect, "Telnet command timed out: #{string}" if retries == 5
+      retries += 1
+      retry
+    end
 
     def wait_for_data
       sleep 0.1 while scanner_status["finished_scan"]
@@ -43,7 +55,7 @@ module VisionMate
     end
 
     def scanner_status
-      result = telnet_connection.cmd("String" => "L", "Match" => /OK/)
+      result = telnet_command "L"
       status = strip_prefix(result)
       status_names = %w{initializing scanning finished_scan data_ready
                         data_sent rack96 empty error}
@@ -63,11 +75,11 @@ module VisionMate
     end
 
     def retrieve_data
-      telnet_connection.cmd("String" => "D", "Match" => /OK/)
+      telnet_command "D"
     end
 
     def set_scanner_to_manual
-      telnet_connection.cmd("String" => "M0", "Match" => /OK/)
+      telnet_command "M0"
     end
 
     def strip_prefix(string)

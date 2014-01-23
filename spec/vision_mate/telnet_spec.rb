@@ -1,4 +1,5 @@
 require_relative "../../lib/vision_mate/telnet"
+require_relative "../../lib/vision_mate/configuration"
 
 class MockTelnet; end
 
@@ -6,6 +7,7 @@ describe VisionMate::Telnet do
   subject { VisionMate::Telnet.new(telnet_connection) }
   let(:uri) { double("uri", host: "192.168.3.132", port: "8000") }
   let(:telnet_connection) { double "telnet_connection" }
+  before { VisionMate::Telnet.instance_variable_set(:@telnet_connection, nil) }
 
   describe ".connect" do
     it "connects to telnet using a host and port" do
