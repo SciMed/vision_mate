@@ -9,16 +9,29 @@ module VisionMate
 
     # For ruby 1.9 compatibility
     class Net::OpenTimeout; end
+    class Net::ReadTimeout; end
 
     def self.connect(host, port, telnet_class = Net::Telnet)
-      @telnet_connection ||= telnet_class.new(
-        "Host" => host, "Port" => port, "Timeout" => Configuration.timeout
-      )
+      @telnet_connection ||= verified_connection host, port, telnet_class
       new(@telnet_connection)
     rescue Net::OpenTimeout, Timeout::Error
       raise CouldNotConnect, "Failed to connect to #{host}:#{port}"
     rescue SocketError
       raise BadHostNameOrPort, "Malformed host name or port"
+    end
+
+    def self.verified_connection(host, port, telnet_class)
+      telnet_connection = telnet_class.new(
+        "Host" => host, "Port" => port, "Timeout" => Configuration.timeout
+      )
+      telnet_connection.cmd("String" => "L", "Match" => /OK/)
+
+      telnet_connection
+    rescue Net::OpenTimeout, Timeout::Error => e
+      retries ||= 0
+      raise e if retries == 5
+      retries += 1
+      retry
     end
 
     def initialize(telnet_connection)

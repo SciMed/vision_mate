@@ -9,6 +9,23 @@ describe VisionMate::Telnet do
   let(:telnet_connection) { double "telnet_connection" }
   before { VisionMate::Telnet.instance_variable_set(:@telnet_connection, nil) }
 
+  describe ".verified_connection" do
+    context "ruby 1.9.X conneciton will often fail to get scanner status" do
+      it "recreates the connection if the connection fails" do
+        telnet_connection.stub(:cmd).with(hash_including("String" => "L"))
+          .and_raise(Timeout::Error.new("Telnet connection failed on status"))
+
+        MockTelnet.should_receive(:new)
+          .with(hash_including("Host" => uri.host, "Port" => uri.port))
+          .at_least(:twice).and_return(telnet_connection)
+
+        expect {
+          VisionMate::Telnet.verified_connection(uri.host, uri.port, MockTelnet)
+        }.to raise_error(Timeout::Error)
+      end
+    end
+  end
+
   describe ".connect" do
     it "connects to telnet using a host and port" do
       MockTelnet.should_receive(:new)
@@ -34,6 +51,9 @@ describe VisionMate::Telnet do
 
     it "sets the scanner to manual" do
       MockTelnet.stub(new: telnet_connection)
+      telnet_connection.should_receive(:cmd).with(
+        "String" => "L", "Match" => /OK/
+      )
       telnet_connection.should_receive(:cmd).with(
         "String" => "M0", "Match" => /OK/
       )
