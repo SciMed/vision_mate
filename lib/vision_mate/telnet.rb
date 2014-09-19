@@ -63,15 +63,18 @@ module VisionMate
     end
 
     def wait_for_data
-      sleep 0.1 while scanner_status["finished_scan"]
-      sleep 0.1 until scanner_status["data_ready"]
+      sleep 1
+      while true
+        status = scanner_status
+        break if !status["scanning"] && status["data_ready"]
+        sleep 0.1
+      end
     end
 
     def scanner_status
       result = telnet_command "L"
       status = strip_prefix(result)
-      status_names = %w{initializing scanning finished_scan data_ready
-                        data_sent rack96 empty error}
+      status_names = %w{error empty rack96 data_sent data_ready finished_scan scanning initializing}
       status_values = extract_statuses(status)
 
       Hash[status_names.zip(status_values)]
@@ -84,7 +87,7 @@ module VisionMate
     end
 
     def to_binary_string(int)
-      int.to_s(2)
+      int.to_s(2).rjust(8,"0")
     end
 
     def retrieve_data
