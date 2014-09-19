@@ -95,8 +95,10 @@ module VisionMate
       telnet_command "M0"
     end
 
+    # The OK is followed by the command value then possibly a response value.
+    # E.g. if you send an "L" the response will be "OKL61"
     def strip_prefix(string)
-      string[/^OK(.*)/, 1]
+      string[/^OK.(.*)/, 1]
     end
   end
 end
