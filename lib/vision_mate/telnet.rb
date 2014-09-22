@@ -12,6 +12,9 @@ module VisionMate
     class Net::ReadTimeout; end
 
     def self.connect(host, port, telnet_class = Net::Telnet)
+      if host.blank? || port.blank?
+        raise BadHostNameOrPort, "No host or port specified for Telnet connection"
+      end
       @telnet_connection ||= verified_connection host, port, telnet_class
       new(@telnet_connection)
     rescue Net::OpenTimeout, Timeout::Error
