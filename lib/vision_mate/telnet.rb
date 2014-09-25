@@ -54,6 +54,10 @@ module VisionMate
       wait_for_data
     end
 
+    def close
+      telnet_connection.close
+    end
+
     private
 
     def telnet_command(string)

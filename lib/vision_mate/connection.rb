@@ -13,5 +13,9 @@ module VisionMate
     def scan
       VisionMate::Rack.new(telnet_connection.scan)
     end
+
+    def close
+      telnet_connection.close
+    end
   end
 end
